@@ -1,21 +1,18 @@
-
-data "mongodbatlas_project" "existing_project" {
-  name = var.project
+locals {
+  cluster_type = "REPLICASET"
+  cidr_block = concat(
+    [ data.aws_vpc.vpc.cidr_block ],
+    [ "172.168.0.0/16" ]
+  )
 }
 
-locals {
-  tags = {
-    "octopus-environment"   = var.octopus_tags["environment"]
-    "octopus-project"       = var.octopus_tags["project"]
-    "octopus-project_group" = var.octopus_tags["project_group"]
-    "octopus-space"         = var.octopus_tags["space"]
-    Name                    = "${var.name}"
-  }
-  cluster_type = "REPLICASET"
+resource "mongodbatlas_project" "project" {
+  name   = var.project
+  org_id = var.org_id
 }
 
 resource "mongodbatlas_advanced_cluster" "cluster" {
-  project_id             = data.mongodbatlas_project.existing_project.id
+  project_id             = mongodbatlas_project.project.id
   name                   = var.name
   cluster_type           = local.cluster_type
   pit_enabled            = var.enable_backup ? var.pit_enabled : false
@@ -36,7 +33,7 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
       }
 
       provider_name = var.provider_name
-      region_name   = var.region
+      region_name   = replace(upper(var.region), "-", "_")
       priority      = 7
 
       auto_scaling {
@@ -59,7 +56,7 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
   }
 
   dynamic "tags" {
-    for_each = local.tags
+    for_each = var.tags
 
     content {
       key   = tags.key
@@ -68,4 +65,5 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
   }
 
   backup_enabled = var.enable_backup
+  depends_on = [ mongodbatlas_project.project ]
 }

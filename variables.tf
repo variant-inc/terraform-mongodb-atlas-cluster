@@ -103,3 +103,14 @@ variable "enable_prometheus" {
   type        = bool
   default     = false
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags for mongodb atlas"
+  default     = {}
+}
+
+variable "eks_cluster_name" {
+  type = string 
+  description = "Name of EKS Cluster name"
+}
