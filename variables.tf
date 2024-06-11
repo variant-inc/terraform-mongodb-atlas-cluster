@@ -111,6 +111,6 @@ variable "tags" {
 }
 
 variable "eks_cluster_name" {
-  type = string 
+  type        = string
   description = "Name of EKS Cluster name"
 }

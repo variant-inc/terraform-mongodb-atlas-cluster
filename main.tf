@@ -1,8 +1,8 @@
 locals {
   cluster_type = "REPLICASET"
   cidr_block = concat(
-    [ data.aws_vpc.vpc.cidr_block ],
-    [ "172.168.0.0/16" ]
+    [data.aws_vpc.vpc.cidr_block],
+    ["172.168.0.0/16"]
   )
 }
 
@@ -65,5 +65,5 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
   }
 
   backup_enabled = var.enable_backup
-  depends_on = [ mongodbatlas_project.project ]
+  depends_on     = [mongodbatlas_project.project]
 }
