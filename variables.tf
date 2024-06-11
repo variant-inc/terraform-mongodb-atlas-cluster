@@ -92,18 +92,6 @@ variable "node_count" {
   default     = 3
 }
 
-variable "username" {
-  description = "Root Username"
-  type        = string
-  default     = "root"
-}
-
-variable "enable_prometheus" {
-  description = "Enable prometheus third party integration"
-  type        = bool
-  default     = false
-}
-
 variable "tags" {
   type        = map(string)
   description = "Tags for mongodb atlas"
