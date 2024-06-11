@@ -1,6 +1,6 @@
 
 data "mongodbatlas_project" "existing_project" {
-  name  = var.project
+  name = var.project
 }
 
 locals {
@@ -12,17 +12,13 @@ locals {
     Name                    = "${var.name}"
   }
   cluster_type = "REPLICASET"
-  master-creds = {
-    username = var.username
-    password = random_password.password.result
-  }
 }
 
 resource "mongodbatlas_advanced_cluster" "cluster" {
   project_id             = data.mongodbatlas_project.existing_project.id
-  name                   = "${var.name}"
+  name                   = var.name
   cluster_type           = local.cluster_type
-  pit_enabled            = var.backup ? var.pit_enabled : false
+  pit_enabled            = var.enable_backup ? var.pit_enabled : false
   mongo_db_major_version = var.mongo_db_major_version
 
   advanced_configuration {
@@ -35,7 +31,7 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
 
     region_configs {
       electable_specs {
-        instance_size = var.instance_size
+        instance_size = var.instance_size.min
         node_count    = var.node_count
       }
 
@@ -47,8 +43,8 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
         disk_gb_enabled            = var.disk_gb_enabled
         compute_enabled            = var.compute_enabled
         compute_scale_down_enabled = var.compute_scale_down_enabled
-        compute_max_instance_size  = var.compute_max_instance_size
-        compute_min_instance_size  = var.compute_min_instance_size
+        compute_max_instance_size  = var.instance_size.max
+        compute_min_instance_size  = var.instance_size.min
       }
 
       backing_provider_name = var.provider_name
@@ -71,5 +67,5 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
     }
   }
 
-  backup_enabled = var.backup
+  backup_enabled = var.enable_backup
 }

@@ -10,7 +10,7 @@ variable "provider_name" {
   default     = "AWS"
 }
 
-variable "backup" {
+variable "enable_backup" {
   description = "MongoDB Backup Snapshots would be enabled in AWS"
   type        = string
   default     = "true"
@@ -57,8 +57,15 @@ variable "num_shards" {
 
 variable "instance_size" {
   description = "Specifies the instance size (e.g., M10, M20, etc.)."
-  type        = string
-  default     = "M10"
+  type = object({
+    min = string
+    max = string
+  })
+  default = {
+    max = "M30"
+    min = "M10"
+
+  }
 }
 
 variable "disk_gb_enabled" {
@@ -73,22 +80,10 @@ variable "compute_enabled" {
   default     = true
 }
 
-variable "compute_max_instance_size" {
-  description = "Specifies the maximum instance size for compute resources."
-  type        = string
-  default     = "M40"
-}
-
 variable "compute_scale_down_enabled" {
   description = "Enables or disables scaling down of compute resources."
   type        = bool
   default     = true
-}
-
-variable "compute_min_instance_size" {
-  description = "Specifies the minimum instance size for compute resources."
-  type        = string
-  default     = "M10"
 }
 
 variable "node_count" {
