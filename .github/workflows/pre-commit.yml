@@ -1,7 +1,7 @@
 ---
 # yamllint disable rule:line-length
 name: Pre Commit
-on: # yamllint disable-line rule:truthy
+on:       # yamllint disable-line rule:truthy
   push:
     branches:
       - "**"

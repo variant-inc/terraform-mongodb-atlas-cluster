@@ -26,8 +26,8 @@ resource "aws_vpc_endpoint" "mongodb_vpce" {
 
 module "mongodb_interface_sg" {
   #checkov:skip=CKV_TF_1:Ensure Terraform module sources use a commit hash
-  source  = "terraform-aws-modules/security-group/aws"
-  version = "~> 5.0"
+  source              = "terraform-aws-modules/security-group/aws"
+  version             = "~> 5.0"
   name                = "mongodb-interface-endpoint"
   description         = "Security group for mongodb interface-endpoints open within VPC"
   vpc_id              = data.aws_eks_cluster.cluster.vpc_config[0].vpc_id
