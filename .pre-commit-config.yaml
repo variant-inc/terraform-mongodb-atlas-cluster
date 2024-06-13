@@ -12,9 +12,6 @@ repos:
           - --args=--hide-empty
           - --args=--hide providers
       - id: terraform_trivy
-        args:
-          - --args=--severity CRITICAL
-          - --args=--severity MEDIUM
       - id: terraform_checkov
         args:
           - --args=--quiet
@@ -34,16 +31,12 @@ repos:
       - id: pretty-format-json
         args:
           - "--autofix"
-  - repo: https://github.com/lovesegfault/beautysh
-    rev: v6.2.1
-    hooks:
-      - id: beautysh
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.39.0
     hooks:
       - id: markdownlint
   - repo: https://github.com/adrienverge/yamllint
-    rev: v1.33.0
+    rev: v1.35.1
     hooks:
       - id: yamllint
         args: [--format, parsable, --strict]

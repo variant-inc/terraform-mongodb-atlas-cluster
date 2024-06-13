@@ -1,7 +1,6 @@
 variable "org_id" {
   description = "MongoDB Atlas Org ID"
   type        = string
-  default     = "643592c6bfd6bd1c5a614465"
 }
 
 variable "provider_name" {
@@ -10,10 +9,24 @@ variable "provider_name" {
   default     = "AWS"
 }
 
+variable "version_release_system" {
+  description = "MongoDB Version Release System"
+  type        = string
+  default     = "LTS"
+  validation {
+    condition     = can(regex("^LTS$|^CONTINUOUS$", var.version_release_system))
+    error_message = "Invalid MongoDB version release system. Must be one of LTS or CONTINUOUS."
+  }
+}
+
 variable "enable_backup" {
   description = "MongoDB Backup Snapshots would be enabled in AWS"
   type        = string
   default     = "true"
+  validation {
+    condition     = var.enable_backup == "true" || var.enable_backup == "false"
+    error_message = "Invalid value for enable_backup. Must be either 'true' or 'false'."
+  }
 }
 
 variable "mongo_db_major_version" {
@@ -38,9 +51,13 @@ variable "name" {
 }
 
 variable "region" {
-  description = "Specifies the AWS region where the MongoDB Atlas cluster will be deployed"
+  description = "AWS Region for MongoDB Atlas cluster deployment"
   type        = string
   default     = "us-east-2"
+  validation {
+    condition     = can(regex("^(us|eu|ap|sa|ca|af)-(north|south|central|east|west|northeast|southeast|southwest|northwest)-\\d+$", var.region))
+    error_message = "Invalid AWS region format. Must follow the format: <region>-<availability_zone>-<number> (e.g., us-east-1)."
+  }
 }
 
 variable "read_only_nodes" {
@@ -64,7 +81,6 @@ variable "instance_size" {
   default = {
     max = "M30"
     min = "M10"
-
   }
 }
 
@@ -101,4 +117,13 @@ variable "tags" {
 variable "eks_cluster_name" {
   type        = string
   description = "Name of EKS Cluster name"
+}
+
+variable "ip_access_list" {
+  type        = list(string)
+  description = "List of IP addresses or CIDR blocks allowed to access the MongoDB Atlas cluster"
+  validation {
+    condition     = can(regex("^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}(?:\\/\\d{1,2})?$", var.ip_access_list[*]))
+    error_message = "Invalid IP address or CIDR block format. Must be in the form of an IP address (e.g., '192.168.1.1') or CIDR notation (e.g., '192.168.1.0/24')."
+  }
 }

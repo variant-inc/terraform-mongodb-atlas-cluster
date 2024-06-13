@@ -2,7 +2,7 @@ locals {
   cluster_type = "REPLICASET"
   cidr_block = concat(
     [data.aws_vpc.vpc.cidr_block],
-    ["172.168.0.0/16"]
+    var.ip_access_list
   )
 }
 
@@ -16,7 +16,8 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
   name                   = var.name
   cluster_type           = local.cluster_type
   pit_enabled            = var.enable_backup ? var.pit_enabled : false
-  mongo_db_major_version = var.mongo_db_major_version
+  version_release_system = var.version_release_system
+  mongo_db_major_version = var.version_release_system == "LTS" ? var.mongo_db_major_version : null
 
   advanced_configuration {
     minimum_enabled_tls_protocol       = "TLS1_2"

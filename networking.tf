@@ -1,4 +1,3 @@
-
 resource "mongodbatlas_privatelink_endpoint" "pe" {
   project_id    = mongodbatlas_project.project.id
   provider_name = var.provider_name
@@ -37,11 +36,11 @@ module "mongodb_interface_sg" {
 
 
 resource "mongodbatlas_project_ip_access_list" "cidr" {
-
   for_each = {
     for cidr in local.cidr_block :
     cidr => cidr
   }
+
   project_id = mongodbatlas_project.project.id
   cidr_block = each.value
   comment    = "CIDR Block ${each.value}"

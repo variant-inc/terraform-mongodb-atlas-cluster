@@ -13,7 +13,7 @@ resource "tls_self_signed_cert" "cert" {
 
   subject {
     common_name  = "usxpress"
-    organization = "US Xpress"
+    organization = "usxpress"
   }
 
   validity_period_hours = 10
