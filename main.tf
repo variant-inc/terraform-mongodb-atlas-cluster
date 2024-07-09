@@ -4,11 +4,16 @@ locals {
     [data.aws_vpc.vpc.cidr_block],
     var.ip_access_list
   )
+  mongodb_tags = {
+    for key, value in var.tags :
+    replace(key, "/", "_") => value
+  }
 }
 
 resource "mongodbatlas_project" "project" {
   name   = var.project
   org_id = var.mongo_org_id
+  tags   = local.mongodb_tags
 }
 
 resource "mongodbatlas_advanced_cluster" "cluster" {
@@ -57,10 +62,10 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
 
   backup_enabled = var.enable_backup
   dynamic "tags" {
-    for_each = var.tags
+    for_each = local.mongodb_tags
 
     content {
-      key   = replace(tags.key, "/", "_")
+      key   = tags.key
       value = tags.value
     }
   }
