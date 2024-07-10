@@ -28,9 +28,10 @@ resource "tls_self_signed_cert" "cert" {
 
 resource "aws_secretsmanager_secret" "secret" {
   #checkov:skip=CKV2_AWS_57:Ensure Secrets Manager secrets should have automatic rotation enabled
-  name        = "mongo-cluster-${var.project}"
-  kms_key_id  = var.kms_key_id
-  description = "Secret contains CA certificate created for ${var.env} mongodb ${var.name}"
+  name                    = "mongo-cluster-${var.project}"
+  kms_key_id              = var.kms_key_id
+  description             = "Secret contains CA certificate created for ${var.env} mongodb ${var.name}"
+  recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "secret_val" {
