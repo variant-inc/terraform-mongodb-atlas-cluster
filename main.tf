@@ -27,6 +27,8 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
   advanced_configuration {
     minimum_enabled_tls_protocol       = "TLS1_2"
     transaction_lifetime_limit_seconds = 60
+    oplog_min_retention_hours          = 336
+    oplog_size_mb                      = null
   }
 
   replication_specs {
