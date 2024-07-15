@@ -25,8 +25,12 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
   mongo_db_major_version = var.version_release_system == "LTS" ? var.mongo_db_major_version : null
 
   advanced_configuration {
-    minimum_enabled_tls_protocol       = "TLS1_2"
-    transaction_lifetime_limit_seconds = 60
+    minimum_enabled_tls_protocol       = lookup(var.advanced_configuration, "minimum_enabled_tls_protocol", "TLS1_2")
+    transaction_lifetime_limit_seconds = lookup(var.advanced_configuration, "transaction_lifetime_limit_seconds", 60)
+    oplog_size_mb                      = lookup(var.advanced_configuration, "oplog_size_mb", null)
+    oplog_min_retention_hours          = lookup(var.advanced_configuration, "oplog_min_retention_hours", "336")
+
+
   }
 
   replication_specs {
