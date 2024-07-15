@@ -130,3 +130,8 @@ variable "tags" {
   type        = map(any)
   description = "Tags to be applied to resources"
 }
+
+variable "advanced_configuration" {
+  type        = map(any)
+  description = "Advanced configuration settings for MongoDB"
+}
