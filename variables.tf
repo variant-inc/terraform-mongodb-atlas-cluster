@@ -135,3 +135,9 @@ variable "advanced_configuration" {
   type        = map(any)
   description = "Advanced configuration settings for MongoDB"
 }
+
+variable "termination_protection_enabled" {
+  type        = bool
+  description = "Enable/Disable Termination Protection."
+  default     = true
+}
