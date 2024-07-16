@@ -29,10 +29,8 @@ resource "mongodbatlas_advanced_cluster" "cluster" {
     transaction_lifetime_limit_seconds = try(var.advanced_configuration["transaction_lifetime_limit_seconds"], 60)
     oplog_size_mb                      = try(var.advanced_configuration["oplog_size_mb"], null)
     oplog_min_retention_hours          = try(var.advanced_configuration["oplog_min_retention_hours"], "336")
-
-
   }
-
+  termination_protection_enabled = var.termination_protection_enabled
   replication_specs {
     num_shards = var.num_shards
 

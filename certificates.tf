@@ -76,6 +76,7 @@ data "aws_iam_policy_document" "policy_document" {
 }
 
 resource "aws_secretsmanager_secret_policy" "policy_att" {
+  count      = var.env != "prod" ? 1 : 0
   secret_arn = aws_secretsmanager_secret.secret.arn
-  policy     = var.env == "prod" ? null : data.aws_iam_policy_document.policy_document.json
+  policy     = data.aws_iam_policy_document.policy_document.json
 }
