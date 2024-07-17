@@ -59,7 +59,8 @@ data "aws_iam_policy_document" "policy_document" {
 
     actions = [
       "secretsmanager:GetSecretValue",
-      "secretsmanager:DescribeSecret"
+      "secretsmanager:DescribeSecret",
+      "secretsmanager:GetResourcePolicy"
     ]
     resources = [
       aws_secretsmanager_secret.secret.arn
