@@ -1,6 +1,6 @@
 # terraform-mongodb-atlas-cluster
-<!-- markdownlint-disable MD033 MD013 MD041 -->
 
+<!-- markdownlint-disable MD033 MD013 MD041 -->
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
@@ -10,14 +10,6 @@
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 | <a name="requirement_mongodbatlas"></a> [mongodbatlas](#requirement\_mongodbatlas) | ~> 1.0 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | 4.0.5 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.0 |
-| <a name="provider_mongodbatlas"></a> [mongodbatlas](#provider\_mongodbatlas) | ~> 1.0 |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.0.5 |
 
 ## Modules
 
